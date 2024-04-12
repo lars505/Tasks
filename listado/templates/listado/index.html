@@ -1,0 +1,70 @@
+{% extends 'listado/base.html' %}
+
+{% block body %}
+<header>
+    <h2 class="text-center text-light">Lista de Tarea</h2>
+</header>
+<div class="wrap">
+    <ul class="list-group">
+        
+        {% if tasks %}
+            {% for task in tasks %}
+                <li class="list-group-item d-flex justify-content-between mb-2">
+                    {{ task.titulo }}
+                    <div class="iconos d-flex">
+                        <a href="{% url 'realizada' task.id %}" class="d-flex">
+                            <span class="material-symbols-outlined done">
+                                done
+                            </span>
+                        </a>
+                        <!-- &nbsp; -->
+                        <a href="{% url 'eliminar' task.pk %}" class="d-flex mx-2">
+                            <span class="material-symbols-outlined trash">
+                                delete
+                            </span>
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+            {% else %}
+                    <span class="text-light text-center m-5">No hay tareas pendientes</span>
+            {% endif %}
+            
+      
+    </ul>
+    <div class="boton d-flex justify-content-center">
+
+        <a href="{% url 'agregar' %}" class="btn btn-success ">Agregar tarea</a>
+    </div>
+</div>  
+
+<div class="row mt-5">
+    <div class="col-lg-6 ">
+        <span class="text-light text-center m-5">Tareas Realizadas</span>
+
+        <ul class="list-group">
+            
+            {% for realizada in realizada %}
+                <li class="list-group-item mb-2">
+                    {{realizada.titulo}}
+                </li>
+            {% endfor %}
+                
+        </ul>
+    </div>
+    <div class="col-lg-6">
+        <span class="text-light text-center m-5">Eliminadas</span>
+
+        <ul class="list-group">
+            
+            {% for eliminado in eliminadas %}
+                <li class="list-group-item mb-2">
+                    {{eliminado.titulo}}
+                </li>
+            {% endfor %}
+    </div>
+    </ul>
+</div>
+
+{% endblock body %}
+    

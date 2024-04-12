@@ -1,0 +1,24 @@
+body{
+    background-color: #2B1887;
+}
+a{
+    text-decoration: none;
+}
+.btn{
+    width: 100px !important;
+    font-size: 10px !important;
+    padding: 6px 6px !important;
+}
+.container{
+    max-width: 500px;
+}
+.trash:hover{
+    color: red;
+}
+.done:hover{
+    color: rgb(32, 91, 29);
+}
+
+/* iconos{
+    gap: 10px;
+} */

@@ -1,0 +1,10 @@
+{% extends 'listado/base.html' %}
+
+{% block body %}
+<form action="" method="post">
+    {% csrf_token %}
+    <input type="text" name="username" id="" placeholder="Username">
+    <input type="text" name="password" id="" placeholder="Password">
+    <input type="submit" value="Register">
+</form>
+{% endblock %}
