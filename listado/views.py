@@ -90,6 +90,7 @@ def Login_view(request):
 
         if user is not None:
             login(request, user)
+            messages.success(request, 'Bienvendo!')
             return HttpResponseRedirect(reverse("index"))
         else:
             messages.warning(request, 'ingrese un usuario valido!')
