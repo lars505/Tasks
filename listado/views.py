@@ -20,12 +20,17 @@ Tareas = {
 def index(request):
 
     if request.user.is_authenticated:
+
+        usuario = User.objects.get(username = request.user)
         context = {
             "tasks": Tasks.objects.filter(
-                estado = True, completado = False
+                estado = True, 
+                completado = False,
+                usuario = usuario
+                
             ),
-            "realizada": Tasks.objects.filter( completado = True),
-            "eliminadas": Tasks.objects.filter( estado = False)
+            "realizada": Tasks.objects.filter( completado = True, usuario = usuario),
+            "eliminadas": Tasks.objects.filter( estado = False, usuario = usuario)
         }
         print(context)
         return render(request, "listado/index.html", context)
@@ -36,12 +41,13 @@ def index(request):
 def agregar(request):
     if request.method == "POST":
        titulo = request.POST['titulo']
-       tarea = request.POST['tarea']
+       tarea = request.POST['descripcion']
        Tasks.objects.create(
            titulo = titulo,
            descripcion = tarea,
            usuario = request.user
        )
+       messages.success(request, 'Tarea agregada')
        return redirect(to="index")
     return render(request, "listado/agregar.html")
 
@@ -49,12 +55,14 @@ def eliminar(requeste, id):
     task = Tasks.objects.get(id = id)
     task.estado = False
     task.save()
+    messages.success(requeste, 'Tarea eliminada')
     return redirect(to="index")
 
 def realizadas(request, id):
     task = Tasks.objects.get(id = id)
     task.completado = True
     task.save()
+    messages.success(request, 'Tarea realizada')
     return redirect(to="index")
 
 def register_vista(request):
@@ -93,14 +101,14 @@ def Login_view(request):
             messages.success(request, 'Bienvendo!')
             return HttpResponseRedirect(reverse("index"))
         else:
-            messages.warning(request, 'ingrese un usuario valido!')
+            messages.warning(request, 'Ingrese un usuario o contraseña valido!')
             return render(request, "listado/login.html")
     else:
         return render(request, "listado/login.html")
     
-
 def Logout_view(request):
     logout(request)
+    messages.success(request, 'Sesion cerrada')
     return HttpResponseRedirect(reverse("index"))
 
 

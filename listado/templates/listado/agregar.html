@@ -1,18 +1,21 @@
 {% extends 'listado/base.html' %}
  gap-3
 {% block body %}
-  <div class="wrap vh-100 d-flex justify-content-center align-items-center flex-column gap-3">
-      <form action="{% url 'agregar' %}" method="post" class="text-center">
-        <label for="add" class="text-light">Agregar Tarea</label>
-        <br>
+  <div class="wrap vh-100 ">
+      <form action="{% url 'agregar' %}" method="post" class="">
         {% csrf_token %}
-        <input type="text" name="titulo" placeholder="Agregar titulo" class="form-control" id="add">
-        <br>
-        <input type="text" name="tarea" placeholder="Agregar tarea" class="form-control" id="add">
-        <br>
-        <input type="submit" value="Agregar" class="btn btn-sm  btn-success">
+        <div class="mt-3">
+          <h3 class="text-light text-center"> Agregar nueva tarea </h3>
+        </div>
+        <div class="mb-3">
+          <label for="titulo" class="form-label text-light">Agregar titulo:</label>
+          <input type="text" name="titulo" placeholder="Titulo" class="form-control" id="titulo">
+        </div>
+        <div class="mb-3">
+          <label for="descripcion" class="form-label text-light">Descripcion</label>
+          <input type="text" name="descripcion" placeholder="Agregar tarea" class="form-control" id="descripcion">
+        </div>
+        <input type="submit" value="Agregar" class="btn  btn-success">
       </form>
-      <br>
-      <a href="{% url 'index' %}">Lista</a> 
  </div>
 {% endblock body %}

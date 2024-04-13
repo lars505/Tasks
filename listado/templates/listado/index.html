@@ -2,15 +2,20 @@
 
 {% block body %}
 <header>
-    <h2 class=" mt-5 text-center text-light">Lista de Tarea</h2>
+    <h2 class=" mt-5 text-center text-light">Lista de Tareas</h2>
 </header>
 <div class="wrap">
     <ul class="list-group">
         {% if tasks %}
             {% for task in tasks %}
                 <li class="list-group-item d-flex justify-content-between mb-2">
-                    {{ task.titulo }}
-                    <div class="iconos d-flex">
+                    <div class="d-flex flex-column">
+                        {{ task.titulo | title }}
+                        <span class="form-text">
+                            Descripcion: {{task.descripcion}}
+                        </span>
+                    </div>
+                    <div class="iconos d-flex justify-content-center align-items-center">
                         <a href="{% url 'realizada' task.id %}" class="d-flex">
                             <span class="material-symbols-outlined done">
                                 done
@@ -66,7 +71,7 @@
                     </li>
                 {% endfor %}
             {% else %}
-                <span class="text-light text-center m-5">No hay tareas Eliminadas</span>
+                <span class="text-light text-center ">No hay tareas Eliminadas</span>
             {% endif %}
                 
     </div>
