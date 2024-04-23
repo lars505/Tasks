@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 
 from django.contrib.auth import login, logout, authenticate
@@ -33,9 +33,19 @@ def index(request):
             "eliminadas": Tasks.objects.filter( estado = False, usuario = usuario)
         }
         print(context)
-        return render(request, "listado/index.html", context)
+        return render(request, "listado/index.html")
     else:
         return HttpResponseRedirect(reverse("login"))
+    
+def tasks(request):
+    usuario = User.objects.get(username = request.user)
+
+    tasks =  Tasks.objects.filter( estado = True,  completado = False, usuario = usuario ).values()
+    data = {
+        "tasks" : list(tasks)
+    }
+    return JsonResponse(data)
+
 
 
 def agregar(request):
