@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const formulario = document.querySelector("#formulario-agregar");
     formulario.style.display = 'none';
     cargarLista()
+
+    document.querySelector("#formulario").addEventListener('submit', add_tasks);
 })
 
 function cargarLista(){
@@ -72,4 +74,60 @@ function cargarLista(){
 
     })
 
+}
+
+function ver_formulario(){
+    console.log("Funciona!")
+
+    document.querySelector("header").style.display = 'none';
+    document.querySelector("#tasks").style.display = 'none';
+    document.querySelector("#tasks-realizadas").style.display = 'none';
+    document.querySelector("#formulario-agregar").style.display = 'block';
+
+}
+
+function add_tasks(event){
+    event.preventDefault();
+    const titulo = document.querySelector('#titulo').value;
+    const descripcion = document.querySelector('#descripcion').value;
+
+    fetch('agregar',
+    {
+        method : 'POST',
+        headers:{
+            'X-CSRFToken': obtenerCSRFToken('csrftoken')
+        },
+        body : JSON.stringify({
+            'titulo': titulo,
+            'descripcion': descripcion
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        document.querySelector('header').style.display='block'
+        document.querySelector('#tasks').style.display='block'
+        document.querySelector('#tasks-realizadas').style.display='block'
+        document.querySelector('#formulario-agregar').style.display='none'
+        document.querySelector('#ul-tasks').innerHTML = '';
+        
+        cargarLista();
+    })
+    return 1;
+}
+
+function obtenerCSRFToken(nombre){
+    const coockieString = document.cookie;
+    const coockie = coockieString.split(';');
+
+    for (let cookie of coockie){
+        const [cookieName, cookieValue] = cookie.split('=');
+        if (cookieName == nombre){
+
+            console.log(cookieValue)
+            return cookieValue
+        }
+    }
+    return '';
+    
 }
