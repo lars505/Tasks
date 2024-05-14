@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 
 from django.contrib.auth import login, logout, authenticate
 
 from .models import Tasks, User
+
+import json
 
 # Create your views here.'
 lista = []
@@ -33,23 +35,33 @@ def index(request):
             "eliminadas": Tasks.objects.filter( estado = False, usuario = usuario)
         }
         print(context)
-        return render(request, "listado/index.html", context)
+        return render(request, "listado/index.html")
     else:
         return HttpResponseRedirect(reverse("login"))
+    
+def tasks(request):
+    usuario = User.objects.get(username = request.user)
+
+    tasks =  Tasks.objects.filter( estado = True,  completado = False, usuario = usuario ).values()
+    data = {
+        "tasks" : list(tasks)
+    }
+    return JsonResponse(data)
+
 
 
 def agregar(request):
-    if request.method == "POST":
-       titulo = request.POST['titulo']
-       tarea = request.POST['descripcion']
-       Tasks.objects.create(
-           titulo = titulo,
-           descripcion = tarea,
-           usuario = request.user
-       )
-       messages.success(request, 'Tarea agregada')
-       return redirect(to="index")
-    return render(request, "listado/agregar.html")
+    if request.method != "POST":
+        return JsonResponse({ "error" : "La peticion no es de tipo POST"})
+        
+    data = json.loads(request.body)
+
+    Tasks.objects.create(
+        titulo = data['titulo'],
+        descripcion = data['descripcion'],
+        usuario = request.user
+    )
+    return JsonResponse({'mensaje':'Tarea agregada!'})
 
 def eliminar(requeste, id):
     task = Tasks.objects.get(id = id)

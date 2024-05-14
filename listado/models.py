@@ -15,6 +15,7 @@ class Tasks(models.Model):
     crated_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateField(auto_now =True)
     usuario = models.ForeignKey(User, on_delete =  models.CASCADE)
+    imagen =  models.ImageField(default="default.jpg", blank=True)
 
     def __str__(self):
         return f"{self.titulo} - {self.completado}"
