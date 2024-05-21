@@ -30,7 +30,11 @@ jobs:
       - name: Variables de entorno
         run: |
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
+      
+      - name: Verificar variable DATABASE_URL
+        run: echo $DATABASE_URL
 
       - name: Run tests
-        run: |
-          python3 manage.py test
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: python3 manage.py test
