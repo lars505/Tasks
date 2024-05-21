@@ -30,8 +30,8 @@ jobs:
       - name: Agregar DATABASE_URL desde secretos
         run: echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> $GITHUB_ENV
 
-      - name: Verificar DATABASE_URL (opcional)  # Paso opcional
-        run: echo "DATABASE_URL: $DATABASE_URL"
+      - name: Verificar DATABASE_URL (opcional)
+        run: echo "DATABASE_URL= ${{secrets.DATABASE_URL}}"
 
       - name: Ejecutar pruebas
         env:
