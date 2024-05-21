@@ -92,18 +92,20 @@ WSGI_APPLICATION = 'tareas.wsgi.application'
 #     )
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ.get('DB_NAME'),  # Accede a la variable de entorno directamente
+#         'USER': os.environ.get('DB_USER'),
+#         'PASSWORD': os.environ.get('DB_PASSWORD'),
+#         'HOST': os.environ.get('DB_HOST'),
+#         'PORT': os.environ.get('DB_PORT'),
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),  # Accede a la variable de entorno directamente
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
-    }
+    'default': dj_database_url.config(default='postgres://dbtask_9o8s_user:ODCgZIjtVzLB30lKyrvTpCcu1cBLAWFO@dpg-cocrdku3e1ms739l1jkg-a.oregon-postgres.render.com/dbtask_9o8s')
 }
-
-
 
 
 
